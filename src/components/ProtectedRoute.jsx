@@ -1,15 +1,24 @@
-// ProtectedRoute.jsx
+import { Navigate, useLocation } from "react-router-dom";
 
-import { Navigate } from "react-router-dom";
-
-function ProtectedRoute({ isLoggedIn, children }) {
-  if (!isLoggedIn) {
-    // If user isn't logged in, return a Navigate component that sends the user to /login
-    return <Navigate to="/login" replace />;
+export default function ProtectedRoute({
+  isLoggedIn,
+  children,
+  anonymous = false,
+}) {
+  const location = useLocation();
+  const from = location.state?.from || "/";
+  // If you can visit without authorization, but you are already authorized
+  if (anonymous && isLoggedIn) {
+    // ...then go back the the path you came from
+    return <Navigate to={from} />;
   }
-    
-  // Otherwise, render the protected route's child component.
+
+  // If you need to be authorize to visit this path but you aren't logged in yet
+  if (!anonymous && !isLoggedIn) {
+    // ...then go to login page
+    return <Navigate to="/login" state={{ from: location }} />;
+  }
+
+  // if ok show the content
   return children;
 }
-
-export default ProtectedRoute;
