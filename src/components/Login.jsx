@@ -3,7 +3,7 @@ import { useState } from "react";
 import Logo from "./Logo";
 import "./styles/Login.css";
 
-const Login = ({ handleLogin }) => {
+const Login = () => {
   const [data, setData] = useState({
     username: "",
     password: "",
@@ -17,13 +17,6 @@ const Login = ({ handleLogin }) => {
     }));
   };
 
-  // handleSubmit prevents the default browser behavior and calls
-  // the login handler.
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleLogin(data);
-  };
-
   return (
     <div className="login">
       <Logo title={"CryptoDucks"} />
@@ -31,8 +24,7 @@ const Login = ({ handleLogin }) => {
         This app contains highly sensitive information. Please sign in or
         register to access CryptoDucks.
       </p>
-      {/* Add the submission handler as the form's onSubmit attribute. */} 
-      <form className="login__form" onSubmit={handleSubmit}>
+      <form className="login__form">
         <label htmlFor="username">Login:</label>
         <input
           id="username"
